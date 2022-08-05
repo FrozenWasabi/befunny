@@ -1,5 +1,3 @@
-print("hello world")
-print("hi")
 from math import *
 from random import *
 
