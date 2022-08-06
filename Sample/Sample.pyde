@@ -10,7 +10,7 @@ def setup():
     
     size(540,960)
     
-    screen = 1
+    screen = 0
     scrollNum = 0
     
     #Image File Reader
@@ -129,6 +129,48 @@ def draw():
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
             
+        
+        #if len(textPast) <= 5:
+        bubbleY = 430
+        for i in range(len(textPast)-1, -1, -1):
+        #for i in range(len(textPast)):
+            print(i)
+            if textOrder[i] == 1:
+                bubbleX = 40
+                textBubble = imageList[2]
+            elif textOrder[i] == 2:
+                bubbleX = 65
+                textBubble = imageList[3]
+            
+            
+            if bubbleY >= 110:
+                delay(500)
+                image(textBubble, bubbleX, bubbleY)
+                bubbleY -= 80
+
+            
+            '''
+            for i in range(5):
+                if (scrollNum >= len(textPast)-5):
+                    scrollNum = len(textPast)-5
+                elif (scrollNum < 0):
+                    scrollNum = 0
+                
+                bubbleY = 430
+            
+                print(i)
+                if textOrder[i] == 1:
+                    bubbleX = 40
+                    textBubble = imageList[2]
+                elif textOrder[i] == 2:
+                    bubbleX = 65
+                    textBubble = imageList[3]
+                delay(500)
+                image(textBubble, bubbleX, bubbleY)
+                bubbleY -= 80
+               ''' 
+        
+        
         if textOrder[textANum + textBNum] == 1:
             if len(textA[textANum]) == 3:
                 textPast.append(textA[textANum][whichBoundary-1])
@@ -173,22 +215,15 @@ def draw():
         #text(textA[0][0], 128, 112 + 55*3/5)
         #text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
         
-        if len(textPast) <= 5:
-            bubbleY = 430
-            for i in range(len(textPast)-1, -1, -1):
-                print(i)
-                if textOrder[i] == 1:
-                    bubbleX = 40
-                    textBubble = imageList[2]
-                elif textOrder[i] == 2:
-                    bubbleX = 65
-                    textBubble = imageList[3]
+        for i in range(len(textBounds)):
+            fill(255, 100)
+            rect(textBounds[i][0][0], textBounds[i][0][1], textBounds[i][1][0]-textBounds[i][0][0], textBounds[i][1][1]-textBounds[i][0][1])
+            if i != 0:
+                fill(255)
+                textMode(CENTER)
+                text("text", width/2-10, textBounds[i][0][1]+(textBounds[i][1][1]-textBounds[i][0][1])*3/5)
+
                 
-                delay(500)
-                image(textBubble, bubbleX, bubbleY)
-                bubbleY -= 80
-                
-    
     whichBoundary = -1
 
 def mouseReleased(): #FOR RECTANGLES
