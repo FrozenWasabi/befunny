@@ -76,7 +76,7 @@ def keyPressed():
 
 
 def setup():
-    global imageList, imageListNames, fileName, screen
+    global imageList, imageListNames, fileName, screen, homeBounds, textBounds
     
     size(540,960)
     
@@ -87,22 +87,44 @@ def setup():
     imageListNames = loadImageNames(fileName)
     imageList = loadImages(imageListNames)
     
+    homeBounds = []
+    homeY = 480
+    homeW = 0
+    
+    textBounds = [[[26, 26], [66, 66]]]
+    textY = 642
+    textW = 0
+    
+    for i in range(3):
+        homeY = 480 + homeW + 37*i
+        textY = 642 + textW + 22*i
+        
+        homeBounds.append([[84, homeY], [458, 96+homeY]])
+        textBounds.append([[60, textY], [480, 70+textY]])
+        
+        
+        homeW += 96
+        textW += 70
+    print(homeBounds)
+    print(textBounds)    
+    
     image(imageList[0], 0, 0)
 
 def draw():
-    global imageList, imageListNames, fileName, screen
+    global imageList, imageListNames, fileName, screen, homeBounds, textBounds
     
     if screen == 0:
         image(imageList[0], 0, 0)
         
         fill(255, 100)
-        rect(84, 480, 374, 96)
+        for i in range(len(homeBounds)):
+            rect(homeBounds[i][0][0], homeBounds[i][0][1], homeBounds[i][1][0]-homeBounds[i][0][0], homeBounds[i][1][1]-homeBounds[i][0][1])
         
     elif screen == 1:
         image(imageList[1], 0, 0)
         fill(255, 100)
-        rect(26, 26, 40, 40)
-        
+        for i in range(len(textBounds)):
+            rect(textBounds[i][0][0], textBounds[i][0][1], textBounds[i][1][0]-textBounds[i][0][0], textBounds[i][1][1]-textBounds[i][0][1])
 
 def mousePressed():
     global screen
