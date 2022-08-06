@@ -14,7 +14,7 @@ def setup():
     size(540,960)
     
     musicbackground = minim.loadFile("music.mp3")
-    musicbackground.loop()
+    #musicbackground.loop()
     
     screen = 0
     scrollNum = 0
@@ -49,13 +49,11 @@ def setup():
         
         homeW += 96
         textW += 70
-    print(homeBounds)
-    print(textBounds)   
-    
+ 
     textANum = 1
     textBNum = 0
     
-    textA = [["Hi, how are you?"],
+    textA = [["Hi, how are you?"], 
              ["I\'m doing fantastic! I\'m glad to have someone to talk to today.","... Pardon? Love your enthusiasm","Oh... that doesn\'t go with the spirit of the website."],
              ["I love to travel is there anything you want to visit"],
              ["Oh yes I have, the atmosphere was lovely.","I see... ","Well it\'s never too late to start"],
@@ -65,7 +63,8 @@ def setup():
              ["Eh? That\'s kinda off-putting..."," mhm fantasy allows for new possibilities just like scifi my favourite.","huh sorry that was random"],
              ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn\'t important enough? I see"],
              ["Out of curiosity, what\'s your favourite food?"],
-             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it\'s fresh."]]
+             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it\'s fresh."],
+             ["Oh sorry I gtg walk my dog now. Cya later"]]
              
     textB = [["Great! What about you?"," Yaaa I know righttt","I don\'t talk to strangers."],
              ["I\'ve always dreamed of visiting Paris to see the Eiffel Tower. Have you been before? ","Traveling is so boring, there\'s no way you enjoy it.","I haven\'t really thought about it."],
@@ -75,9 +74,9 @@ def setup():
              ["How\'s the weather today?","Don\'t talk to me","Who are you again?"],
              ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
     
-    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1]
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1]
     #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
-    
+
     bubbleX = 40
     bubbleY = 430
     
@@ -114,18 +113,31 @@ def draw():
         image(imageList[1], 0, 0)
         
         allBoundaries = textBounds
-        print(textPast)
-        print(textOrder, textANum + textBNum)
         
+        if textOrder[textANum + textBNum] == 2:
+            print(textB[textBNum])
+            for i in range(len(textB[textBNum])):
+                fill(0)
+                textMode(CENTER)
+                text(textB[textBNum][i], width/2-10, textBounds[i+1][0][1]+(textBounds[i+1][1][1]-textBounds[i+1][0][1])*3/5)
+                
+
         if whichBoundary == 0:
             screen = 0
         elif whichBoundary == 1 or whichBoundary == 2 or whichBoundary == 3:
             
             if textOrder[textANum + textBNum] == 2:
+                
                 if whichBoundary == 1:
                     print("Option 1")
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
+                    
+                    if textANum + textBNum == 7:
+                        print("DOG QUESTION")
+                        textOrder.insert(8, 2)
+                        textOrder.insert(9, 1)           
+                    
                 elif whichBoundary == 2:
                     print("Option 2")
                     textPast.append(textB[textBNum][whichBoundary-1])
@@ -134,13 +146,29 @@ def draw():
                     print("Option 3")
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
-            
-        
+                    
+                if textANum + textBNum == 7 and (whichBoundary == 2 or whichBoundary == 3):
+                    textA.pop(5)
+                    textB.pop(3)
+                
+                print(textOrder)
+                #print(textA)
+                #print(textB)
+                    
+                '''  
+                #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
+                if (dog question chosen):
+                    textOrder.insert(8, 2)
+                    textOrder.insert(9, 1)
+                '''
+                
+                
         #if len(textPast) <= 5:
         bubbleY = 430
         for i in range(len(textPast)-1, -1, -1):
         #for i in range(len(textPast)):
-            print(i)
+        
+        
             if textOrder[i] == 1:
                 bubbleX = 40
                 textBubble = imageList[2]
@@ -154,36 +182,19 @@ def draw():
                 image(textBubble, bubbleX, bubbleY)
                 
                 fill(0)
+                textSize(16)
                 textMode(CENTER)
                 textAlign(CENTER)
                 textSize(16)
-                text(textA[i][0], 218+bubbleX, bubbleY+36)
-
-                bubbleY -= 80
-
-            
-            '''
-            for i in range(5):
-                if (scrollNum >= len(textPast)-5):
-                    scrollNum = len(textPast)-5
-                elif (scrollNum < 0):
-                    scrollNum = 0
-                
-                bubbleY = 430
-            
-                print(i)
                 if textOrder[i] == 1:
-                    bubbleX = 40
-                    textBubble = imageList[2]
+                    text(textPast[i], 248+bubbleX, bubbleY+36)
                 elif textOrder[i] == 2:
-                    bubbleX = 65
-                    textBubble = imageList[3]
-                delay(500)
-                image(textBubble, bubbleX, bubbleY)
+                    text(textPast[i], 188+bubbleX, bubbleY+36)
+
                 bubbleY -= 80
-               ''' 
-        
-        
+
+
+
         if textOrder[textANum + textBNum] == 1:
             if len(textA[textANum]) == 3:
                 textPast.append(textA[textANum][whichBoundary-1])
@@ -223,6 +234,7 @@ def draw():
         #text(textA[0][0], 128, 112 + 55*3/5)
         #text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
         
+        '''
         for i in range(len(textBounds)):
             #fill(255, 100)
             #rect(textBounds[i][0][0], textBounds[i][0][1], textBounds[i][1][0]-textBounds[i][0][0], textBounds[i][1][1]-textBounds[i][0][1])
@@ -230,6 +242,17 @@ def draw():
                 fill(255)
                 textMode(CENTER)
                 text("text", width/2-10, textBounds[i][0][1]+(textBounds[i][1][1]-textBounds[i][0][1])*3/5)
+        '''
+        
+        '''       
+        for i in range(len(textOrder)):
+            print("Order", textANum + textBNum)
+            
+            if textOrder[textANum + textBNum] == 2:
+                fill(255)
+                textMode(CENTER)
+                text(, width/2-10, textBounds[i][0][1]+(textBounds[i][1][1]-textBounds[i][0][1])*3/5)
+          '''      
                 
     whichBoundary = -1
 
