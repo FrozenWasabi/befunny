@@ -1,3 +1,3 @@
-# Companion App
+# Loque
 ## About This Project
-This app does something cool :)
+Loque is a simple application that aims to help teach basic online conversational skills.
