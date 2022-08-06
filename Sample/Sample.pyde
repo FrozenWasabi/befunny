@@ -1,13 +1,17 @@
 from Images import loadImageNames
 from Images import loadImages
 
+
 def setup():
-    global imageList, imageListNames, fileName, screen, homeBounds, textBounds
+    global imageList, imageListNames, fileName 
+    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
     global allBoundaries, whichBoundary, numBoundaries
+    global scrollNum
     
     size(540,960)
     
     screen = 1
+    scrollNum = 0
     
     #Image File Reader
     fileName = "ImageNames.txt"
@@ -40,13 +44,43 @@ def setup():
         homeW += 96
         textW += 70
     print(homeBounds)
-    print(textBounds)    
+    print(textBounds)   
+    
+    textANum = 1
+    textBNum = 0
+    
+    textA = [["Hi, how are you?"],
+             ["I’m doing fantastic! I’m glad to have someone to talk to today.","… Pardon? Love your enthusiasm","Oh… that doesn’t go with the spirit of the website."],
+             ["I love to travel is there anything you want to visit"],
+             ["Oh yes I have, the atmosphere was lovely.","I see… ","Well it's never too late to start"],
+             ["I love them! They’re so adorable and fluffy.","sorry? I'm not comfortable answering that…","Are you there? It’s not very polite to leave people on read."],
+             ["I see…","Yeah, we have so much in common","Hmm, you don't see that interested"],
+             ["What’s your favourite genre of books or tv shows?"],
+             ["Eh? That’s kinda off-putting…"," mhm fantasy allows for new possibilities just like scifi my favourite.","huh sorry that was random"],
+             ["Its pretty rainy today","… i see bye","You forgot who I am? I wasn't important enough? I see"],
+             ["Out of curiosity, what's your favourite food?"],
+             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."]]
+             
+    textB = [["Great! What about you?"," Yaaa I know righttt","I don’t talk to strangers."],
+             ["I've always dreamed of visiting Paris to see the Eiffel Tower. Have you been before? ","Traveling is so boring, there’s no way you enjoy it.","I haven't really thought about it."],
+             ["Do you like dogs?","Where do you live?","..."],
+             ["I hate em","Mhm I totally agree. They're soo cute","Ya"],
+             ["Horror, i like to watch people die…"," I love fantasy it allows you to imagine a whole new whole.","Have you been fishing?"],
+             ["How's the weather today?","Don't talk to me","Who are you again?"],
+             ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
+    
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1]
+    #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
+    
+    textPast = [textA[0][0]]
     
     image(imageList[0], 0, 0)
 
 def draw():
-    global imageList, imageListNames, fileName, screen, homeBounds, textBounds
+    global imageList, imageListNames, fileName 
+    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
     global allBoundaries, whichBoundary, numBoundaries
+    global scrollNum
     
     if screen == 0:
         image(imageList[0], 0, 0)
@@ -69,17 +103,34 @@ def draw():
         image(imageList[1], 0, 0)
         
         allBoundaries = textBounds
-        
+        print(textPast)
         if whichBoundary == 0:
             screen = 0
-        elif whichBoundary == 1:
-            print("Option 1")
-        elif whichBoundary == 2:
-            print("Option 2")
-        elif whichBoundary == 3:
-            print("Option 3")
+        elif whichBoundary == 1 or whichBoundary == 2 or whichBoundary == 3:
+            
+            if whichBoundary == 1:
+                print("Option 1")
+                textPast.append(textB[textBNum][whichBoundary-1])
+                textBNum += 1
+                
+                print(textPast)
+            elif whichBoundary == 2:
+                print("Option 2")
+                textPast.append(textB[textBNum][whichBoundary-1])
+                textBNum += 1
+                print(textPast)
+            elif whichBoundary == 3:
+                print("Option 3")
+                textPast.append(textB[textBNum][whichBoundary-1])
+                textBNum += 1
+                print(textPast)
         
-        
+            if len(textA[textANum]) == 3:
+                textPast.append(textA[textANum][whichBoundary-1])
+            else:
+                textPast.append(textA[textANum][0])
+            textANum += 1
+            
         
         fill(255, 100)
         for i in range(len(textBounds)):
@@ -87,22 +138,33 @@ def draw():
         
         #Person A (Pink Bubbles)
         image(imageList[2], 40, 110)
-        rect(108, 112 + 160*0, 361, 55)
-        
+        #rect(108, 112 + 160*0, 361, 55)
+
         image(imageList[2], 40, 270)
-        rect(108, 112 + 160*1, 361, 55)
+        #rect(108, 112 + 160*1, 361, 55)
         
         image(imageList[2], 40, 430)
-        rect(108, 112 + 160*2, 361, 55)
+        #rect(108, 112 + 160*2, 361, 55)
 
         
         #Person B(Green Bubbles)
         image(imageList[3], 65, 190)
-        rect(70, 192 + 160*0, 361, 55)
+        #rect(70, 192 + 160*0, 361, 55)
         
         image(imageList[3], 65, 350)
-        rect(70, 192 + 160*1, 361, 55)
-
+        #rect(70, 192 + 160*1, 361, 55)
+        
+        #Person A Text
+                
+        fill(255)
+        textSize(20)
+        
+        myFont = createFont("Calibri", 20)
+        textFont(myFont)
+        
+        text(textA[0][0], 128, 112 + 55*3/5)
+        text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
+    
     whichBoundary = -1
 
 def mouseReleased(): #FOR RECTANGLES
@@ -116,3 +178,8 @@ def mouseReleased(): #FOR RECTANGLES
         if validLocation:
             whichBoundary = i
             break
+        
+#Function to store mouseWheel scroll value
+def mouseWheel(event):
+    global scrollNum
+    scrollNum += event.getCount()
