@@ -77,15 +77,20 @@ def keyPressed():
 
 def setup():
     global imageList, imageListNames, fileName, screen, homeBounds, textBounds
+    global allBoundaries, whichBoundary, numBoundaries
     
     size(540,960)
     
-    screen = 1
+    screen = 0
     
     #Image File Reader
     fileName = "ImageNames.txt"
     imageListNames = loadImageNames(fileName)
     imageList = loadImages(imageListNames)
+    
+    allBoundaries = []
+    whichBoundary = -1
+    numBoundaries = len(allBoundaries)
     
     homeBounds = []
     homeY = 480
@@ -112,9 +117,20 @@ def setup():
 
 def draw():
     global imageList, imageListNames, fileName, screen, homeBounds, textBounds
+    global allBoundaries, whichBoundary, numBoundaries
     
     if screen == 0:
         image(imageList[0], 0, 0)
+        
+        allBoundaries = homeBounds
+        
+        if whichBoundary == 0:
+            screen = 1
+        elif whichBoundary == 1:
+            print("INFO")
+        elif whichBoundary == 2:
+            delay(250)
+            exit()
         
         fill(255, 100)
         for i in range(len(homeBounds)):
@@ -122,15 +138,32 @@ def draw():
         
     elif screen == 1:
         image(imageList[1], 0, 0)
+        
+        allBoundaries = textBounds
+        
+        if whichBoundary == 0:
+            screen = 0
+        elif whichBoundary == 1:
+            print("Option 1")
+        elif whichBoundary == 2:
+            print("Option 2")
+        elif whichBoundary == 3:
+            print("Option 3")
+        
         fill(255, 100)
         for i in range(len(textBounds)):
             rect(textBounds[i][0][0], textBounds[i][0][1], textBounds[i][1][0]-textBounds[i][0][0], textBounds[i][1][1]-textBounds[i][0][1])
 
-def mousePressed():
-    global screen
-    
-    if mouseX >= 83 and mouseX <= 456 and mouseY >= 480 and mouseY <= 576:
-        screen = 1
-        println("clicked")
-    elif mouseX >= 26 and mouseX <=66 and mouseY >= 26 and mouseY <= 66:
-        screen = 0
+    whichBoundary = -1
+
+def mouseReleased(): #FOR RECTANGLES
+    global allBoundaries, whichBoundary, numBoundaries
+
+    validLocation = False
+    for i in range(len(allBoundaries)):        
+        validXRange = allBoundaries[i][0][0] <= mouseX <= allBoundaries[i][1][0] 
+        validYRange = allBoundaries[i][0][1]  <= mouseY <= allBoundaries[i][1][1]
+        validLocation = validXRange and validYRange
+        if validLocation:
+            whichBoundary = i
+            break
