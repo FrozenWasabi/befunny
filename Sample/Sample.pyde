@@ -50,22 +50,22 @@ def setup():
     textBNum = 0
     
     textA = [["Hi, how are you?"],
-             ["I\'m doing fantastic! I\'m glad to have someone to talk to today.","… Pardon? Love your enthusiasm","Oh… that doesn\'t go with the spirit of the website."],
+             ["I\'m doing fantastic! I\'m glad to have someone to talk to today.","... Pardon? Love your enthusiasm","Oh... that doesn\'t go with the spirit of the website."],
              ["I love to travel is there anything you want to visit"],
-             ["Oh yes I have, the atmosphere was lovely.","I see. . .","Well it\'s never too late to start"],
-             ["I love them! They\'re so adorable and fluffy.","sorry? I\'m not comfortable answering that…","Are you there? It\'s not very polite to leave people on read."],
-             ["I see…","Yeah, we have so much in common","Hmm, you don\'t see that interested"],
+             ["Oh yes I have, the atmosphere was lovely.","I see... ","Well it\'s never too late to start"],
+             ["I love them! They\'re so adorable and fluffy.","sorry? I\'m not comfortable answering that...","Are you there? It\'s not very polite to leave people on read."],
+             ["I see...","Yeah, we have so much in common","Hmm, you don\'t see that interested"],
              ["What\'s your favourite genre of books or tv shows?"],
-             ["Eh? That\'s kinda off-putting…"," mhm fantasy allows for new possibilities just like scifi my favourite.","huh sorry that was random"],
-             ["Its pretty rainy today","… i see bye","You forgot who I am? I wasn\'t important enough? I see"],
+             ["Eh? That\'s kinda off-putting..."," mhm fantasy allows for new possibilities just like scifi my favourite.","huh sorry that was random"],
+             ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn\'t important enough? I see"],
              ["Out of curiosity, what\'s your favourite food?"],
              ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it\'s fresh."]]
-
+             
     textB = [["Great! What about you?"," Yaaa I know righttt","I don\'t talk to strangers."],
              ["I\'ve always dreamed of visiting Paris to see the Eiffel Tower. Have you been before? ","Traveling is so boring, there\'s no way you enjoy it.","I haven\'t really thought about it."],
              ["Do you like dogs?","Where do you live?","..."],
-             ["I hate \'em","Mhm I totally agree. They\'re soo cute","Ya"],
-             ["Horror, i like to watch people die…"," I love fantasy it allows you to imagine a whole new whole.","Have you been fishing?"],
+             ["I hate em","Mhm I totally agree. They\'re soo cute","Ya"],
+             ["Horror, i like to watch people die..."," I love fantasy it allows you to imagine a whole new whole.","Have you been fishing?"],
              ["How\'s the weather today?","Don\'t talk to me","Who are you again?"],
              ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
     
@@ -162,7 +162,7 @@ def draw():
         #Person A Text
                 
         fill(0)
-        text(textPast[textANum + textBNum - 1], 30, 30)
+        #text(textPast[textANum + textBNum - 1], 30, 30)
         
         fill(255)
         textSize(20)
@@ -170,24 +170,24 @@ def draw():
         myFont = createFont("Calibri", 20)
         textFont(myFont)
         
-        text(textA[0][0], 128, 112 + 55*3/5)
-        text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
+        #text(textA[0][0], 128, 112 + 55*3/5)
+        #text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
         
         if len(textPast) <= 5:
             bubbleY = 430
-            for i in range(len(textPast)):
-                if textPast[i] == 1:
+            for i in range(len(textPast)-1, -1, -1):
+                print(i)
+                if textOrder[i] == 1:
                     bubbleX = 40
                     textBubble = imageList[2]
-                elif textPast[i] == 2:
+                elif textOrder[i] == 2:
                     bubbleX = 65
-                    textBubble = imageList[2]
+                    textBubble = imageList[3]
                 
+                delay(500)
                 image(textBubble, bubbleX, bubbleY)
                 bubbleY -= 80
                 
-        
-        
     
     whichBoundary = -1
 
