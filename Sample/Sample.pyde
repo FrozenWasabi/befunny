@@ -103,7 +103,10 @@ def draw():
     if screen == 0:
         image(imageList[0], 0, 0)
         
-        allBoundaries = homeBounds
+        if textOrder[textANum + textBNum] == 1:
+            allBoundaries = allBoundaries[0]
+        else:
+            allBoundaries = textBounds
         
         if whichBoundary == 0:
             screen = 1
