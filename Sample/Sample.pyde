@@ -54,27 +54,28 @@ def setup():
     textBNum = 0
     
     textA = [["Hi, how are you?"], 
-             ["I\'m doing fantastic! I\'m glad to have someone to talk to today.","... Pardon? Love your enthusiasm","Oh... that doesn\'t go with the spirit of the website."],
+             ["I'm doing good! Nice to talk to someone today.","... Pardon? Love your enthusiasm","Oh... that doesn't go with the spirit of the website."],
              ["I love to travel is there anything you want to visit"],
-             ["Oh yes I have, the atmosphere was lovely.","I see... ","Well it\'s never too late to start"],
-             ["I love them! They\'re so adorable and fluffy.","sorry? I\'m not comfortable answering that...","Are you there? It\'s not very polite to leave people on read."],
-             ["I see...","Yeah, we have so much in common","Hmm, you don\'t see that interested"],
-             ["What\'s your favourite genre of books or tv shows?"],
-             ["Eh? That\'s kinda off-putting..."," mhm fantasy allows for new possibilities just like scifi my favourite.","huh sorry that was random"],
-             ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn\'t important enough? I see"],
-             ["Out of curiosity, what\'s your favourite food?"],
-             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it\'s fresh."],
+             ["Oh yes I have, the atmosphere was lovely.","I see... ","Well it's never too late to start"],
+             ["I love them! They're so adorable and fluffy.","sorry? I'm not comfortable answering that...","Are you there? It's not very polite to leave people on read."],
+             ["I see...","Yeah, we have so much in common","Hmm, you don't see that interested"],
+             ["What's your favourite genre of books or tv shows?"],
+             ["Eh? That's kinda off-putting..."," mhm fantasy is always interesting.","huh sorry that was random"],
+             ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn't important enough? I see"],
+             ["Out of curiosity, what's your favourite food?"],
+             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."],
              ["Oh sorry I gtg walk my dog now. Cya later"]]
-             
-    textB = [["Great! What about you?"," Yaaa I know righttt","I don\'t talk to strangers."],
-             ["I\'ve always dreamed of visiting Paris to see the Eiffel Tower. Have you been before? ","Traveling is so boring, there\'s no way you enjoy it.","I haven\'t really thought about it."],
+
+    textB = [["Great! What about you?"," Yaaa I know righttt","I don't talk to strangers."],
+             ["I want to visit Paris. Have you been before? ","Traveling is so boring.","I haven't really thought about it."],
              ["Do you like dogs?","Where do you live?","..."],
-             ["I hate em","Mhm I totally agree. They\'re soo cute","Ya"],
-             ["Horror, i like to watch people die..."," I love fantasy it allows you to imagine a whole new whole.","Have you been fishing?"],
-             ["How\'s the weather today?","Don\'t talk to me","Who are you again?"],
+             ["I hate em","Mhm I totally agree. They're soo cute","Ya"],
+             ["Horror, i like to watch people die..."," I love fantasy.","Have you been fishing?"],
+             ["How's the weather today?","Don't talk to me","Who are you again?"],
              ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
     
-    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1]
+    
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 0]
     #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
 
     bubbleX = 40
@@ -91,6 +92,13 @@ def draw():
     global allBoundaries, whichBoundary, numBoundaries
     global scrollNum
     global bubbleX, bubbleY, textBubble
+    
+                
+    fill(255)
+    textSize(20)
+    
+    myFont = createFont("Calibri", 20)
+    textFont(myFont)
     
     if screen == 0:
         image(imageList[0], 0, 0)
@@ -112,7 +120,10 @@ def draw():
     elif screen == 1:
         image(imageList[1], 0, 0)
         
-        allBoundaries = textBounds
+        if textOrder[textANum + textBNum] == 1:
+            allBoundaries = allBoundaries[0]
+        else:
+            allBoundaries = textBounds
         
         if textOrder[textANum + textBNum] == 2:
             print(textB[textBNum])
@@ -132,36 +143,28 @@ def draw():
                     print("Option 1")
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
-                    
+                  
                     if textANum + textBNum == 7:
                         print("DOG QUESTION")
                         textOrder.insert(8, 2)
-                        textOrder.insert(9, 1)           
-                    
+                        textOrder.insert(9, 1)    
+                               
                 elif whichBoundary == 2:
                     print("Option 2")
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
+                  
                 elif whichBoundary == 3:
                     print("Option 3")
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
-                    
+                  
                 if textANum + textBNum == 7 and (whichBoundary == 2 or whichBoundary == 3):
                     textA.pop(5)
                     textB.pop(3)
                 
                 print(textOrder)
-                #print(textA)
-                #print(textB)
-                    
-                '''  
-                #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
-                if (dog question chosen):
-                    textOrder.insert(8, 2)
-                    textOrder.insert(9, 1)
-                '''
-                
+    
                 
         #if len(textPast) <= 5:
         bubbleY = 430
@@ -201,58 +204,9 @@ def draw():
             else:
                 textPast.append(textA[textANum][0])
             textANum += 1
-            
-        #Person A (Pink Bubbles)
-        #image(imageList[2], 40, 110)
-        #rect(108, 112 + 160*0, 361, 55)
-
-        #image(imageList[2], 40, 270)
-        #rect(108, 112 + 160*1, 361, 55)
-        
-        #image(imageList[2], 40, 430)
-        #rect(108, 112 + 160*2, 361, 55)
-
-        
-        #Person B(Green Bubbles)
-        #image(imageList[3], 65, 190)
-        #rect(70, 192 + 160*0, 361, 55)
-        
-        #image(imageList[3], 65, 350)
-        #rect(70, 192 + 160*1, 361, 55)
-        
-        #Person A Text
-                
-        fill(0)
-        #text(textPast[textANum + textBNum - 1], 30, 30)
-        
-        fill(255)
-        textSize(20)
-        
-        myFont = createFont("Calibri", 20)
-        textFont(myFont)
-        
-        #text(textA[0][0], 128, 112 + 55*3/5)
-        #text(textB[0][0], 128 + 50, (112 + 55*3/5) + 80)
-        
-        '''
-        for i in range(len(textBounds)):
-            #fill(255, 100)
-            #rect(textBounds[i][0][0], textBounds[i][0][1], textBounds[i][1][0]-textBounds[i][0][0], textBounds[i][1][1]-textBounds[i][0][1])
-            if i != 0:
-                fill(255)
-                textMode(CENTER)
-                text("text", width/2-10, textBounds[i][0][1]+(textBounds[i][1][1]-textBounds[i][0][1])*3/5)
-        '''
-        
-        '''       
-        for i in range(len(textOrder)):
-            print("Order", textANum + textBNum)
-            
-            if textOrder[textANum + textBNum] == 2:
-                fill(255)
-                textMode(CENTER)
-                text(, width/2-10, textBounds[i][0][1]+(textBounds[i][1][1]-textBounds[i][0][1])*3/5)
-          '''      
+          
+        if textOrder[textANum + textBNum] == 0:
+            screen = 0    
                 
     whichBoundary = -1
 
