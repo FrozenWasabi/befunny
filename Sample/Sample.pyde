@@ -195,21 +195,28 @@ def draw():
                     text(textPast[i], 248+bubbleX, bubbleY+36)
                 elif textOrder[i] == 2:
                     text(textPast[i], 188+bubbleX, bubbleY+36)
-
+                
+                
                 bubbleY -= 80
 
 
 
         if textOrder[textANum + textBNum] == 1:
-            
+            print(textOrder[textANum + textBNum+1], "HERE")
             if score >= 3:
                 textPast.append("Uh I uh needa go somewhere bye")
                 allBoundaries = allBoundaries[0]
+            
             else:
                 if len(textA[textANum]) == 3:
                     textPast.append(textA[textANum][whichBoundary-1])
                 else:
                     textPast.append(textA[textANum][0])
+            
+            if textANum + textBNum == len(textPast):
+                textPast.append("Thanks for chatting with me!")
+                allBoundaries = allBoundaries[0]
+            
             
             textANum += 1
     
@@ -228,7 +235,7 @@ def draw():
 def mouseReleased(): #FOR RECTANGLES
     global allBoundaries, whichBoundary, numBoundaries
     global sound
-
+    print(allBoundaries)
     validLocation = False
     for i in range(len(allBoundaries)):        
         validXRange = allBoundaries[i][0][0] <= mouseX <= allBoundaries[i][1][0] 
