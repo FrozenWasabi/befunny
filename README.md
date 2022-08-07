@@ -1,4 +1,4 @@
-#Loque
+# Loque
 ## What it does
 Loque is a Processing-based software for a virtual conversation partner and service. Emulate talking with someone for the first time and learn how to begin and end conversations with ease. Choose from three conversation options to respond and start conversations with someone online. Each message sent is accompanied by a reaction that can be seen through their response. A negative response from the receiver drops their impression of you. Once that impression drops below a certain point they will end the conversation. The user's goal is to maintain a conversation and not have it end prematurely.
 
