@@ -72,7 +72,8 @@ def setup():
              ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn't important enough? I see"],
              ["Out of curiosity, what's your favourite food?"],
              ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."],
-             ["Oh sorry I gtg walk my dog now. Cya later"], ["Uh I uh needa go somewhere bye"]]
+             ["Oh sorry I gtg walk my dog now. Cya later", "Uh I uh needa go somewhere bye"],
+             [""]]
 
     textB = [["Great! What about you?"," Yaaa I know righttt","I don't talk to strangers."],
              ["I want to visit Paris. Have you been before? ","Traveling is so boring.","I haven't really thought about it."],
@@ -82,10 +83,10 @@ def setup():
              ["How's the weather today?","Don't talk to me","Who are you again?"],
              ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
     
-    goodbad = [[1,0,0],[1,0,0], [1,0,0], [0,1,0], [0,1,0], [1,0,0], [0,0,1]]
+    goodbad = [[1,0,0], [1,0,0], [1,0,0], [0,1,0], [0,1,0], [1,0,0], [0,0,1]]
     
     
-    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 0]
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 0, 3, 3]
     #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
 
     bubbleX = 40
@@ -131,11 +132,10 @@ def draw():
         else:
             allBoundaries = textBounds
         
-        if textOrder[textANum + textBNum] == 2:
+        if textOrder[textANum + textBNum] == 2 and whichBoundary == -1:
             print(textB[textBNum])
             for i in range(len(textB[textBNum])):
-                fill(0)
-                textAlign(CENTER)
+                textSize(20)
                 text(textB[textBNum][i], width/2-10, textBounds[i+1][0][1]+(textBounds[i+1][1][1]-textBounds[i+1][0][1])*3/5)
                 
 
@@ -166,7 +166,7 @@ def draw():
                   
                 elif whichBoundary == 3:
                     print("Option 3")
-                    if goodbad[textBNum][1] == 0:
+                    if goodbad[textBNum][2] == 0:
                         score += 1
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
@@ -178,8 +178,9 @@ def draw():
                 print(textOrder)
                 
             if score == 3:
-                print("end")   
-                screen = 3 
+                text(textA[12][0], width/2-10, textBounds[i+1][0][1]+(textBounds[i+1][1][1]-textBounds[i+1][0][1])*3/5)
+                delay(2000)
+                screen = 3
         #if len(textPast) <= 5:
         bubbleY = 430
         for i in range(len(textPast)-1, -1, -1):
@@ -212,17 +213,21 @@ def draw():
 
 
         if textOrder[textANum + textBNum] == 1:
-            if textANum + textBNum == 20:
-                screen = 3
+            
             if len(textA[textANum]) == 3:
                 textPast.append(textA[textANum][whichBoundary-1])
             else:
                 textPast.append(textA[textANum][0])
+
             textANum += 1
-            
+        
+        # if textOrder[textANum + textBNum] == 3:
+        #     screen = 0 
+        
+        # if textANum + textBNum == 20:
+        #   screen = 3    
           
-        # if textOrder[textANum + textBNum] == 0:
-        #     screen = 0    
+           
     
     
     elif screen == 2:
@@ -237,6 +242,7 @@ def draw():
     elif screen == 3:
         background(0)
             
+    print("score", score)        
     whichBoundary = -1
 
 def mouseReleased(): #FOR RECTANGLES
