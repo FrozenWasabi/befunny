@@ -26,8 +26,8 @@ def setup():
     imageListNames = loadImageNames(fileName)
     imageList = loadImages(imageListNames)
     
-    imageList[2].resize(435, 60)
     imageList[3].resize(435, 60)
+    imageList[4].resize(435, 60)
     
     allBoundaries = []
     whichBoundary = -1
@@ -90,7 +90,7 @@ def setup():
     bubbleY = 430
     
     textPast = [textA[0][0]]
-    textBubble = imageList[2]
+    textBubble = imageList[3]
     
     image(imageList[0], 0, 0)
 
@@ -190,10 +190,10 @@ def draw():
         
             if textOrder[i] == 1:
                 bubbleX = 40
-                textBubble = imageList[2]
+                textBubble = imageList[3]
             elif textOrder[i] == 2:
                 bubbleX = 65
-                textBubble = imageList[3]
+                textBubble = imageList[4]
             
             
             if bubbleY >= 110:
@@ -229,7 +229,7 @@ def draw():
     
     
     elif screen == 2:
-        image(imageList[2], 0, 0)
+        image(imageList[3], 0, 0)
         allBoundaries = infoBounds
         
         if whichBoundary == 0:
