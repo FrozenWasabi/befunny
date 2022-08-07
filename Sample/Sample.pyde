@@ -5,7 +5,7 @@ minim = Minim(this)
 
 def setup():
     global imageList, imageListNames, fileName 
-    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
+    global screen, homeBounds, textBounds, infoBounds, textA, textB, textANum, textBNum, textPast, textOrder
     global allBoundaries, whichBoundary, numBoundaries
     global scrollNum
     global bubbleX, bubbleY, textBubble
@@ -24,8 +24,8 @@ def setup():
     imageListNames = loadImageNames(fileName)
     imageList = loadImages(imageListNames)
     
-    imageList[2].resize(435, 60)
     imageList[3].resize(435, 60)
+    imageList[4].resize(435, 60)
     
     allBoundaries = []
     whichBoundary = -1
@@ -34,10 +34,12 @@ def setup():
     homeBounds = []
     homeY = 480
     homeW = 0
-    
+
     textBounds = [[[26, 26], [66, 66]]]
     textY = 642
     textW = 0
+    
+    infoBounds = [[[26, 26], [66, 66]], [[60, 853], [480, 923]]]
     
     for i in range(3):
         homeY = 480 + homeW + 37*i
@@ -82,13 +84,13 @@ def setup():
     bubbleY = 430
     
     textPast = [textA[0][0]]
-    textBubble = imageList[2]
+    textBubble = imageList[3]
     
     image(imageList[0], 0, 0)
 
 def draw():
     global imageList, imageListNames, fileName 
-    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
+    global screen, homeBounds, textBounds, infoBounds, textA, textB, textANum, textBNum, textPast, textOrder
     global allBoundaries, whichBoundary, numBoundaries
     global scrollNum
     global bubbleX, bubbleY, textBubble
@@ -102,16 +104,12 @@ def draw():
     
     if screen == 0:
         image(imageList[0], 0, 0)
-        
-        if textOrder[textANum + textBNum] == 1:
-            allBoundaries = allBoundaries[0]
-        else:
-            allBoundaries = textBounds
+        allBoundaries = homeBounds
         
         if whichBoundary == 0:
             screen = 1
         elif whichBoundary == 1:
-            print("INFO")
+            screen = 2
         elif whichBoundary == 2:
             delay(250)
             exit()
@@ -177,10 +175,10 @@ def draw():
         
             if textOrder[i] == 1:
                 bubbleX = 40
-                textBubble = imageList[2]
+                textBubble = imageList[3]
             elif textOrder[i] == 2:
                 bubbleX = 65
-                textBubble = imageList[3]
+                textBubble = imageList[4]
             
             
             if bubbleY >= 110:
@@ -210,7 +208,16 @@ def draw():
           
         if textOrder[textANum + textBNum] == 0:
             screen = 0    
-                
+    
+    elif screen == 2:
+        image(imageList[2], 0, 0)
+        allBoundaries = infoBounds
+        
+        if whichBoundary == 0:
+            screen = 0
+        elif whichBoundary == 1:
+            screen = 1
+            
     whichBoundary = -1
 
 def mouseReleased(): #FOR RECTANGLES
