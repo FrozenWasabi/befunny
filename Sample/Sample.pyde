@@ -10,6 +10,7 @@ def setup():
     global scrollNum
     global bubbleX, bubbleY, textBubble
     global musicbackground
+    global goodbad, score
     
     size(540,960)
     
@@ -18,14 +19,15 @@ def setup():
     
     screen = 0
     scrollNum = 0
+    score = 0
     
     #Image File Reader
     fileName = "ImageNames.txt"
     imageListNames = loadImageNames(fileName)
     imageList = loadImages(imageListNames)
     
+    imageList[2].resize(435, 60)
     imageList[3].resize(435, 60)
-    imageList[4].resize(435, 60)
     
     allBoundaries = []
     whichBoundary = -1
@@ -34,7 +36,7 @@ def setup():
     homeBounds = []
     homeY = 480
     homeW = 0
-
+    
     textBounds = [[[26, 26], [66, 66]]]
     textY = 642
     textW = 0
@@ -51,7 +53,9 @@ def setup():
         
         homeW += 96
         textW += 70
- 
+        
+    
+    
     textANum = 1
     textBNum = 0
     
@@ -66,7 +70,7 @@ def setup():
              ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn't important enough? I see"],
              ["Out of curiosity, what's your favourite food?"],
              ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."],
-             ["Oh sorry I gtg walk my dog now. Cya later"]]
+             ["Oh sorry I gtg walk my dog now. Cya later"], ["Uh I uh needa go somewhere bye"]]
 
     textB = [["Great! What about you?"," Yaaa I know righttt","I don't talk to strangers."],
              ["I want to visit Paris. Have you been before? ","Traveling is so boring.","I haven't really thought about it."],
@@ -76,25 +80,27 @@ def setup():
              ["How's the weather today?","Don't talk to me","Who are you again?"],
              ["Definitely battery acid you should try sometime","I like to sleep","Mm sushi is by far my favourite. "]]
     
+    goodbad = [[1,0,0],[1,0,0], [1,0,0], [0,1,0], [0,1,0], [1,0,0], [0,0,1]]
     
-    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 0]
+    
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 0]
     #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
 
     bubbleX = 40
     bubbleY = 430
     
     textPast = [textA[0][0]]
-    textBubble = imageList[3]
+    textBubble = imageList[2]
     
     image(imageList[0], 0, 0)
 
 def draw():
     global imageList, imageListNames, fileName 
-    global screen, homeBounds, textBounds, infoBounds, textA, textB, textANum, textBNum, textPast, textOrder
+    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
     global allBoundaries, whichBoundary, numBoundaries
     global scrollNum
     global bubbleX, bubbleY, textBubble
-    
+    global score, goodbad
                 
     fill(255)
     textSize(20)
@@ -104,12 +110,13 @@ def draw():
     
     if screen == 0:
         image(imageList[0], 0, 0)
+        
         allBoundaries = homeBounds
         
         if whichBoundary == 0:
             screen = 1
         elif whichBoundary == 1:
-            screen = 2
+            print("INFO")
         elif whichBoundary == 2:
             delay(250)
             exit()
@@ -142,6 +149,8 @@ def draw():
                 
                 if whichBoundary == 1:
                     print("Option 1")
+                    if goodbad[textBNum][0] == 0:
+                        score += 1
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
                   
@@ -152,11 +161,15 @@ def draw():
                                
                 elif whichBoundary == 2:
                     print("Option 2")
+                    if goodbad[textBNum][1] == 0:
+                        score += 1
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
                   
                 elif whichBoundary == 3:
                     print("Option 3")
+                    if goodbad[textBNum][1] == 0:
+                        score += 1
                     textPast.append(textB[textBNum][whichBoundary-1])
                     textBNum += 1
                   
@@ -165,8 +178,10 @@ def draw():
                     textB.pop(3)
                 
                 print(textOrder)
-    
                 
+            if score == 3:
+                print("end")   
+                screen = 3 
         #if len(textPast) <= 5:
         bubbleY = 430
         for i in range(len(textPast)-1, -1, -1):
@@ -175,14 +190,14 @@ def draw():
         
             if textOrder[i] == 1:
                 bubbleX = 40
-                textBubble = imageList[3]
+                textBubble = imageList[2]
             elif textOrder[i] == 2:
                 bubbleX = 65
-                textBubble = imageList[4]
+                textBubble = imageList[3]
             
             
             if bubbleY >= 110:
-                delay(500)
+                delay(100)
                 image(textBubble, bubbleX, bubbleY)
                 
                 fill(0)
@@ -200,14 +215,18 @@ def draw():
 
 
         if textOrder[textANum + textBNum] == 1:
+            if textANum + textBNum == 20:
+                screen = 3
             if len(textA[textANum]) == 3:
                 textPast.append(textA[textANum][whichBoundary-1])
             else:
                 textPast.append(textA[textANum][0])
             textANum += 1
+            
           
-        if textOrder[textANum + textBNum] == 0:
-            screen = 0    
+        # if textOrder[textANum + textBNum] == 0:
+        #     screen = 0    
+    
     
     elif screen == 2:
         image(imageList[2], 0, 0)
@@ -217,6 +236,9 @@ def draw():
             screen = 0
         elif whichBoundary == 1:
             screen = 1
+            
+    elif screen == 3:
+        background(0)
             
     whichBoundary = -1
 
