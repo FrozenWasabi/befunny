@@ -5,9 +5,8 @@ minim = Minim(this)
 
 def setup():
     global imageList, imageListNames, fileName 
-    global screen, homeBounds, textBounds, infoBounds, textA, textB, textANum, textBNum, textPast, textOrder
+    global screen, homeBounds, textBounds, infoBounds, textA, textB, textANum, textBNum, textPast, textOrder, myFont
     global allBoundaries, whichBoundary, numBoundaries
-    global scrollNum
     global bubbleX, bubbleY, textBubble
     global musicbackground
     global goodbad, score
@@ -20,6 +19,9 @@ def setup():
     screen = 0
     scrollNum = 0
     score = 0
+        
+    myFont = createFont("Calibri", 20)
+    textFont(myFont)
     
     #Image File Reader
     fileName = "ImageNames.txt"
@@ -96,17 +98,13 @@ def setup():
 
 def draw():
     global imageList, imageListNames, fileName 
-    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder
+    global screen, homeBounds, textBounds, textA, textB, textANum, textBNum, textPast, textOrder, myFont
     global allBoundaries, whichBoundary, numBoundaries
-    global scrollNum
     global bubbleX, bubbleY, textBubble
     global score, goodbad
                 
     fill(255)
     textSize(20)
-    
-    myFont = createFont("Calibri", 20)
-    textFont(myFont)
     
     if screen == 0:
         image(imageList[0], 0, 0)
@@ -137,7 +135,7 @@ def draw():
             print(textB[textBNum])
             for i in range(len(textB[textBNum])):
                 fill(0)
-                textMode(CENTER)
+                textAlign(CENTER)
                 text(textB[textBNum][i], width/2-10, textBounds[i+1][0][1]+(textBounds[i+1][1][1]-textBounds[i+1][0][1])*3/5)
                 
 
@@ -202,7 +200,6 @@ def draw():
                 
                 fill(0)
                 textSize(16)
-                textMode(CENTER)
                 textAlign(CENTER)
                 textSize(16)
                 if textOrder[i] == 1:
@@ -256,8 +253,3 @@ def mouseReleased(): #FOR RECTANGLES
             sound.play()
             whichBoundary = i
             break
-        
-#Function to store mouseWheel scroll value
-def mouseWheel(event):
-    global scrollNum
-    scrollNum += event.getCount()
