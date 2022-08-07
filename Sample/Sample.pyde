@@ -71,9 +71,7 @@ def setup():
              ["Eh? That's kinda off-putting..."," mhm fantasy is always interesting.","huh sorry that was random"],
              ["Its pretty rainy today","... i see bye","You forgot who I am? I wasn't important enough? I see"],
              ["Out of curiosity, what's your favourite food?"],
-             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."],
-             ["Oh sorry I gtg walk my dog now. Cya later", "Uh I uh needa go somewhere bye"],
-             [""]]
+             ["hm you might what to avoid that","Good to know. You favourite food tho?","oh yess that is delicious especially when it's fresh."]]
 
     textB = [["Great! What about you?"," Yaaa I know righttt","I don't talk to strangers."],
              ["I want to visit Paris. Have you been before? ","Traveling is so boring.","I haven't really thought about it."],
@@ -86,7 +84,7 @@ def setup():
     goodbad = [[1,0,0], [1,0,0], [1,0,0], [0,1,0], [0,1,0], [1,0,0], [0,0,1]]
     
     
-    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 0, 3, 3]
+    textOrder = [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 0]
     #If textOrder[6] option/whichBoundary == 1, append [2] into textOrder[8]
 
     bubbleX = 40
@@ -106,6 +104,7 @@ def draw():
                 
     fill(255)
     textSize(20)
+    textAlign(CENTER)
     
     if screen == 0:
         image(imageList[0], 0, 0)
@@ -119,10 +118,6 @@ def draw():
         elif whichBoundary == 2:
             delay(250)
             exit()
-        
-        fill(255, 100)
-        for i in range(len(homeBounds)):
-            rect(homeBounds[i][0][0], homeBounds[i][0][1], homeBounds[i][1][0]-homeBounds[i][0][0], homeBounds[i][1][1]-homeBounds[i][0][1])
         
     elif screen == 1:
         image(imageList[1], 0, 0)
@@ -177,10 +172,6 @@ def draw():
                 
                 print(textOrder)
                 
-            if score == 3:
-                text(textA[12][0], width/2-10, textBounds[i+1][0][1]+(textBounds[i+1][1][1]-textBounds[i+1][0][1])*3/5)
-                delay(2000)
-                screen = 3
         #if len(textPast) <= 5:
         bubbleY = 430
         for i in range(len(textPast)-1, -1, -1):
@@ -199,9 +190,6 @@ def draw():
                 delay(100)
                 image(textBubble, bubbleX, bubbleY)
                 
-                fill(0)
-                textSize(16)
-                textAlign(CENTER)
                 textSize(16)
                 if textOrder[i] == 1:
                     text(textPast[i], 248+bubbleX, bubbleY+36)
@@ -214,21 +202,16 @@ def draw():
 
         if textOrder[textANum + textBNum] == 1:
             
-            if len(textA[textANum]) == 3:
-                textPast.append(textA[textANum][whichBoundary-1])
+            if score >= 3:
+                textPast.append("Uh I uh needa go somewhere bye")
+                allBoundaries = allBoundaries[0]
             else:
-                textPast.append(textA[textANum][0])
-
+                if len(textA[textANum]) == 3:
+                    textPast.append(textA[textANum][whichBoundary-1])
+                else:
+                    textPast.append(textA[textANum][0])
+            
             textANum += 1
-        
-        # if textOrder[textANum + textBNum] == 3:
-        #     screen = 0 
-        
-        # if textANum + textBNum == 20:
-        #   screen = 3    
-          
-           
-    
     
     elif screen == 2:
         image(imageList[2], 0, 0)
@@ -238,9 +221,6 @@ def draw():
             screen = 0
         elif whichBoundary == 1:
             screen = 1
-            
-    elif screen == 3:
-        background(0)
             
     print("score", score)        
     whichBoundary = -1
