@@ -116,7 +116,7 @@ def draw():
         if whichBoundary == 0:
             screen = 1
         elif whichBoundary == 1:
-            print("INFO")
+            screen = 2
         elif whichBoundary == 2:
             delay(250)
             exit()
@@ -229,7 +229,7 @@ def draw():
     
     
     elif screen == 2:
-        image(imageList[3], 0, 0)
+        image(imageList[2], 0, 0)
         allBoundaries = infoBounds
         
         if whichBoundary == 0:
