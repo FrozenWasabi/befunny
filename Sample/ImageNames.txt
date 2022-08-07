@@ -1,1 +1,1 @@
-Home Page.png,Text Blank.png,bubbleA.png,bubbleB.png
+Home Page.png,Text Blank.png,Info Page.png,bubbleA.png,bubbleB.png
